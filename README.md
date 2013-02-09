@@ -1,3 +1,6 @@
+sofia-ml, modified
+==================
+
 This is a slightly modified version of [sofia-ml](http://code.google.com/p/sofia-ml/) by D. Sculley. It differs from the original only in one additional parameter used with RBF cluster mapping:
 
 `--cluster_mapping_threshold <t>`
