@@ -15,4 +15,4 @@ The modified files are:
 	sofia-ml/cluster-src/sf-cluster-centers.h
 	sofia-ml/src/sofia-kmeans.cc
 
-See [http://fastml.com/the-secret-of-the-big-guys/](the-secret-of-the-big-guys/) for more.
+See [http://fastml.com/the-secret-of-the-big-guys/](http://fastml.com/the-secret-of-the-big-guys/) for more.
