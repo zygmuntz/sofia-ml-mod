@@ -39,6 +39,18 @@ enum ClusterCenterMappingType {
   RBF_KERNEL
 };
 
+// ---
+
+
+// a struct for sorting distances to clusters ( --cluster_mapping_sparsity )
+struct element {
+  int index;
+  float value;
+};
+
+// ---
+
+
 class SfClusterCenters {
  public:
   // Construct an empty object with no centers defined.  The dimensionality
@@ -84,7 +96,8 @@ class SfClusterCenters {
   SfSparseVector* MapVectorToCenters(const SfSparseVector& x,
 				     ClusterCenterMappingType type,
 				     float p,
-				     float t ) const;
+				     float t,
+				     int s ) const;
 
   // Accessors.
   // Returns a reference to the given cluster center.  Behavior is undefined

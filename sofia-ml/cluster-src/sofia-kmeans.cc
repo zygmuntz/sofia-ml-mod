@@ -64,8 +64,11 @@ void CommandLine(int argc, char** argv) {
 	  "   The parameter value to use in --cluster_mapping_out.",
 	  float(1.0));
   AddFlag("--cluster_mapping_threshold",
-	  "   The parameter value to use in RBF mapping. Values smaller than this will be set to zero.",
-	  float(0.0));	  
+	  "   Threshold to use in RBF mapping. Values smaller than this will be set to zero.",
+	  float(0.0));	
+  AddFlag("--cluster_mapping_sparsity",
+	  "   The number of nearest clusters to use in mapping. Default is 0, or all. Works only with RBF mapping.",
+	  int(0));		  
   AddFlag("--random_seed",
           "When set to non-zero value, use this seed instead of seed \n"
 	  "    from system clock. This can be useful for parameter tuning \n"
@@ -364,6 +367,7 @@ int main (int argc, char** argv) {
       }
       float p = CMD_LINE_FLOATS["--cluster_mapping_param"];
       float t = CMD_LINE_FLOATS["--cluster_mapping_threshold"];
+      int s = CMD_LINE_INTS["--cluster_mapping_sparsity"];
 
       std::fstream mapping_stream;
       mapping_stream.open(CMD_LINE_STRINGS["--cluster_mapping_out"].
@@ -379,7 +383,7 @@ int main (int argc, char** argv) {
 		<< CMD_LINE_STRINGS["--cluster_mapping_out"] << std::endl;
       for (int i = 0; i < test_data->NumExamples(); ++i) {
 	SfSparseVector* x_t =
-	  cluster_centers->MapVectorToCenters(test_data->VectorAt(i), type, p, t);
+	  cluster_centers->MapVectorToCenters(test_data->VectorAt(i), type, p, t, s);
 	mapping_stream << x_t->AsString() << std::endl;
 	delete x_t;
       }

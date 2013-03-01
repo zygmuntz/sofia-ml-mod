@@ -27,6 +27,32 @@
 #include <fstream>
 #include "sf-cluster-centers.h"
 
+#include <algorithm>
+
+// ---
+
+// for sorting by distance value
+/* qsort version
+int element_compare_( void const *a, void  const *b ) {
+	return ( (( element * ) a )->value - (( element * ) b )->value );
+}
+
+// sort desc
+int element_compare( void const *a, void  const *b ) {
+	element c, d;
+	 c = *( element * ) a; 
+	 d = *( element * ) b;
+	 return ( d.value - c.value );
+}
+*/
+
+int element_compare( element c, element d ) {
+	//printf ("1st: %d/%f, 2nd: %d/%f\n", c.index, c.value, d.index, d.value );
+	return ( c.value > d.value );
+}
+
+// ---
+
 SfClusterCenters::SfClusterCenters(int dimensionality)
   : dimensionality_(dimensionality) {
   assert(dimensionality_ >= 0);
@@ -126,12 +152,19 @@ SfSparseVector* SfClusterCenters::MapVectorToCenters(
     const SfSparseVector& x,
     ClusterCenterMappingType type,
     float p,
-    float t ) const {
+    float t,
+    int s ) const {
   SfSparseVector* mapped_x = new SfSparseVector(x);
   assert(mapped_x != NULL);
   mapped_x->ClearFeatures();
+  
+  unsigned int num_clusters = cluster_centers_.size();
+  struct element distances[num_clusters];
+  int element_ranks[num_clusters];
+  float element_distances[num_clusters];
+  // num_to_select is s
 
-  for (unsigned int i = 1; i <= cluster_centers_.size(); ++i) {
+  for (unsigned int i = 1; i <= num_clusters; ++i) {
     float d = SqDistanceToCenterId(i - 1, x);
     switch (type) {
     case SQUARED_DISTANCE:
@@ -146,7 +179,50 @@ SfSparseVector* SfClusterCenters::MapVectorToCenters(
       std::cerr << "ClusterCenterMappingType " << type << "not supported.";
       exit(1);
     }
-    mapped_x->PushPair(i, d);
+    if ( s > 0 and type != SQUARED_DISTANCE ) {
+	    distances[i - 1].index = i;
+	    distances[i - 1].value = d;
+	    element_distances[i - 1] = d;
+	} else {
+		mapped_x->PushPair(i, d);
+	}
   }
+  
+  	// select s closest clusters
+  	if ( s > 0 and type != SQUARED_DISTANCE ) {
+  
+		for ( unsigned int n = 0; n < 10; n++ ) {
+			//printf ("index: %d, value: %f\n", distances[n].index, distances[n].value );
+		}  
+		//printf ("\n\n");
+
+		//qsort( distances, num_clusters, sizeof( element ), element_compare );
+		std::sort( distances, distances + num_clusters, &element_compare );
+
+		for ( unsigned int n = 0; n < 10; n++ ) {
+			//printf ("index: %d, value: %f\n", distances[n].index, distances[n].value );
+		}  
+		//exit( 0 );
+
+		// compute ranks 0...n-1  
+		for ( unsigned int n = 0; n < num_clusters; n++ ) {
+			int index = distances[n].index;
+			float value = distances[n].value;
+			element_ranks[index - 1] = n;
+			//printf( "%d / %f - rank %d\n", index, value, n );
+		}  
+		//exit( 0 );
+
+		for ( unsigned int n = 0; n < num_clusters; n++ ) {
+			if ( element_ranks[n] < s ) {
+				mapped_x->PushPair( n + 1, element_distances[n] );
+				//printf( "index: %d\trank:%d\tdistance: %f \n", n+1, element_ranks[n], element_distances[n] );
+
+			} 
+		}  
+		//exit( 0 );
+	}
+  
   return mapped_x;
 }
+
