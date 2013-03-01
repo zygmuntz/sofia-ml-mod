@@ -1,7 +1,7 @@
 sofia-ml, modified
 ==================
 
-This is a modified version of [sofia-ml](http://code.google.com/p/sofia-ml/) by D. Sculley. It differs from the original only in two additional parameter used with RBF cluster mapping:
+This is a modified version of [sofia-ml](http://code.google.com/p/sofia-ml/) by D. Sculley. It differs from the original only in two additional parameter used with sofia-kmeans RBF cluster mapping:
 
 `--cluster_mapping_threshold <float t>`
 
