@@ -11,7 +11,7 @@ Make sure that `t` is small enough in relation to `--cluster_mapping_param`, bec
 
 `--cluster_mapping_sparsity <int s>`
 
-Only use _s_ nearest cluster centers for mapping. It is a stronger alternative for using a threshold. The results with sparse mapping might be slightly worse, but the file certainly will be way smaller. Recommended for large data sets.
+Only use _s_ nearest cluster centers for mapping. It is a stronger alternative to setting a threshold. The results with sparse mapping might be slightly worse, but the file certainly will be way smaller. Recommended for large data sets.
 
 
 The modified files are:
