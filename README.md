@@ -21,6 +21,3 @@ The modified files are:
 	sofia-ml/src/sofia-kmeans.cc
 
 See [http://fastml.com/the-secret-of-the-big-guys/](http://fastml.com/the-secret-of-the-big-guys/) for more.
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/zygmuntz/sofia-ml-mod/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
