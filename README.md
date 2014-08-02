@@ -5,7 +5,7 @@ This is a modified version of [sofia-ml](http://code.google.com/p/sofia-ml/) by 
 
 `--cluster_mapping_threshold <float t>`
 
-After mapping, the values below the threshold will be set to zero (try `t` = 0.01 or 0.001). The resulting file might be smaller and sparsyifying in this way may also help supervised learning (smaller error in classification or regression).
+After mapping, the values below the threshold will be set to zero (try `t` = 0.01 or 0.001). The resulting file might be smaller and sparsifying in this way may also help supervised learning (smaller error in classification or regression).
 
 Make sure that `t` is small enough in relation to `--cluster_mapping_param`, because if all the features are smaller than the threshold, you'll just get a bunch of zeros.
 
